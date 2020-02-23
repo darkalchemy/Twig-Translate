@@ -157,7 +157,7 @@ switch ($process) {
 
 Then, to translate into fr_FR locale, run:  
 ```
-php bin/translate fr_FR
+php bin/translate.php fr_FR
 ```
 
 Then, edit the messages.po in poedit, validate and save.  
