@@ -155,4 +155,11 @@ switch ($process) {
 }
 ```
 
+Then, to translate into fr_FR locale, run:  
+```
+php bin/translate fr_FR
+```
+
+Then, edit the messages.po in poedit, validate and save.  
+
 For full documentation on how to use to use each of the functions, please refer to [PHP-I18n](https://github.com/delight-im/PHP-I18N) where each function is well documented.  
