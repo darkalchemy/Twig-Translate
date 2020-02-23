@@ -1,0 +1,41 @@
+{
+    "name": "darkalchemy/twig-translate",
+    "type": "library",
+    "description": "A Twig Translation Extension",
+    "keywords": [
+        "twig",
+        "translation",
+        "translations",
+        "text",
+        "i18n",
+        "poedit",
+        "gettext"
+    ],
+    "homepage": "https://github.com/darkalchemy/twig-translate",
+    "license": "MIT",
+    "require": {
+        "php": "^7.4",
+        "ext-gettext": "*",
+        "ext-intl": "*",
+        "delight-im/i18n": "^1.0",
+        "odan/session": "^4.0",
+        "twig/twig": "^3.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14",
+        "symfony/var-dumper": "^5.0"
+    },
+    "scripts": {
+        "cleanup": [
+            "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --show-progress=dots -vvv"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Darkalchemy\\Twig\\": "src"
+        }
+    }
+}
