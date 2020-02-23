@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darkalchemy\Extensions;
+namespace Darkalchemy;
 
 use Delight\I18n\I18n;
 use Delight\I18n\Throwable\LocaleNotSupportedException;

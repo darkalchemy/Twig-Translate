@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darkalchemy\Utilities;
+namespace Darkalchemy;
 
 use DirectoryIterator;
 use Exception;
