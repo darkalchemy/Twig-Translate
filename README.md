@@ -11,7 +11,7 @@ So, this extension uses [Delight-im/i18n](https://github.com/delight-im/PHP-I18N
 ## Installation
 
 ```
-composer require darkalchemy/twig-translation
+composer require darkalchemy/twig-translate
 ```
 
 ## Integration
