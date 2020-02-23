@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darkalchemy;
+namespace darkalchemy\Twig;
 
 use DirectoryIterator;
 use Exception;
