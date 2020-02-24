@@ -16,7 +16,7 @@ composer require darkalchemy/twig-translate
 
 ## Integration
 
-### Register the Twig Extension and the local codes that will be available.  T
+### Register the Twig Extension and the local codes that will be available.  
 ##### This makes the functions available for all strings that are in twig templates.
 In your container
 ```
@@ -115,7 +115,13 @@ function _m(string $text)
 }
 ```  
 
-In order to translate your twig templates, you first need to compile the templates. Create a file bin/translate.php and add this to it.
+### Copy i18n.sh from I18n to the bin directory
+```
+cp vendor/delight-im/i18n/i18n.sh bin/
+chmod a+x bin/i18n.sh
+```
+
+### In order to translate your twig templates, you first need to compile the templates. Create a file bin/translate.php and add this to it.
 ```
 <?php
 
@@ -162,7 +168,7 @@ switch ($process) {
 }
 ```
 
-Then, to translate into fr_FR locale, run:  
+### To translate into fr_FR locale, run:  
 ```
 php bin/translate.php fr_FR
 ```
