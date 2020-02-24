@@ -16,9 +16,16 @@ composer require darkalchemy/twig-translate
 
 ## Integration
 
-### Register the Twig Extension. This makes the functions available for all strings that are in twig templates.
+### Register the Twig Extension and the local codes that will be available.  T
+##### This makes the functions available for all strings that are in twig templates.
 In your container
 ```
+\Delight\I18n\I18n::class => DI\factory(function () {
+    return new \Delight\I18n\I18n([
+        \Delight\I18n\Codes::EN_US,
+        \Delight\I18n\Codes::FR_FR,
+    ]);
+}),
 \Slim\Views\Twig::class => function (\Psr\Container\ContainerInterface $container) {
         $settings = $container->get(Configuration::class)->all();
         $twig = \Slim\Views\Twig::create($settings['twig']['path'], [
