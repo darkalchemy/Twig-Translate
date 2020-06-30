@@ -17,16 +17,16 @@
         "php": "^7.4",
         "ext-gettext": "*",
         "ext-intl": "*",
-        "delight-im/i18n": "^1.0",
-        "odan/session": "^4.0",
-        "twig/twig": "^3.0"
+        "delight-im/i18n": "^1.0.2",
+        "odan/session": "^4.0.0",
+        "twig/twig": "^3.0.03"
     },
     "config": {
         "sort-packages": true
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.14",
-        "symfony/var-dumper": "^5.0"
+        "friendsofphp/php-cs-fixer": "^2.16.4",
+        "symfony/var-dumper": "^5.1.2"
     },
     "scripts": {
         "cleanup": [
