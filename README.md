@@ -1,7 +1,7 @@
 # Twig Translation Extension
 
 A Twig Translation Extension.  
-This twig extension was forked from [Odan/Twig-Translation](https://github.com/odan/twig-translation) because I wanted more flexibility with available methods for translating.  
+This twig extension has been forked from [Odan/Twig-Translation](https://github.com/odan/twig-translation) because I wanted more flexibility with available methods for translating.  
 So, this extension uses [delight-im/PHP-I18N](https://github.com/delight-im/PHP-I18N) to handle the translations. 
 
 ## Requirements
@@ -16,7 +16,7 @@ composer require darkalchemy/twig-translate
 
 ## Integration
 
-### Register the Twig Extension and the local codes that will be available.  
+### Register the Twig Extension and, the locale codes that will be available.  
 ##### This makes the functions available for all strings that are in twig templates.
 In your container
 ```
@@ -26,18 +26,21 @@ In your container
         \Delight\I18n\Codes::FR_FR,
     ]);
 }),
+
+SessionInterface::class => fn () => new PhpSession(),
+
 \Slim\Views\Twig::class => function (\Psr\Container\ContainerInterface $container) {
         $settings = $container->get(Configuration::class)->all();
         $twig = \Slim\Views\Twig::create($settings['twig']['path'], [
             'cache' => $settings['twig']['cache'] ?? false,
         ]);
-        $twig->addExtension(new \darkalchemy\Twig\TwigTranslationExtension($container->get(\Delight\I18n\I18n::class), $container->get(\Odan\Session\PhpSession::class)));
+        $twig->addExtension(new \darkalchemy\Twig\TwigTranslationExtension($container->get(\Delight\I18n\I18n::class), $container->get(SessionInterface::class)));
 
         return $twig;
 }
 ```
 
-### Add a $i18n in app.php, so that it can be called by global in helpers.php
+### Add an $i18n into app.php, so that it can be called by global in helpers.php
 ```
 $i18n = $container->get(\Delight\I18n\I18n::class);
 ```
@@ -175,4 +178,4 @@ php bin/translate.php fr_FR
 
 Then, edit the messages.po in poedit, validate and save.  
 
-For full documentation on how to use to use each of the functions, please refer to [PHP-I18n](https://github.com/delight-im/PHP-I18N) where each function is well documented.  
+For full documentation on how to use each of the functions, please refer to [PHP-I18n](https://github.com/delight-im/PHP-I18N) where each function is well documented.  
