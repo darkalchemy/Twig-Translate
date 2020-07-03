@@ -1,5 +1,7 @@
 # Twig Translation Extension
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c738c074ab2458e8a9f0a8e441de3ca)](https://app.codacy.com/manual/darkalchemy/Twig-Translate?utm_source=github.com&utm_medium=referral&utm_content=darkalchemy/Twig-Translate&utm_campaign=Badge_Grade_Dashboard)
+
 A Twig Translation Extension.  
 This twig extension has been forked from [Odan/Twig-Translation](https://github.com/odan/twig-translation) because I wanted more flexibility with available methods for translating.  
 So, this extension uses [delight-im/PHP-I18N](https://github.com/delight-im/PHP-I18N) to handle the translations. 
