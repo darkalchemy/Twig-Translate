@@ -15,15 +15,15 @@ use Twig\TwigFunction;
  */
 class TwigTranslationExtension extends AbstractExtension
 {
-    protected I18n       $i18n;
+    protected I18n $i18n;
     protected SessionInterface $phpSession;
     protected array $locales;
 
     /**
      * TwigTranslationExtension constructor.
      *
-     * @param I18n             $i18n
-     * @param SessionInterface $phpSession
+     * @param I18n             $i18n       The i18n
+     * @param SessionInterface $phpSession The php session
      */
     public function __construct(I18n $i18n, SessionInterface $phpSession)
     {
@@ -31,13 +31,13 @@ class TwigTranslationExtension extends AbstractExtension
         $this->phpSession = $phpSession;
         $this->locales    = $this->i18n->getSupportedLocales();
 
-        $this->set_user_locale();
+        $this->setUserLocale();
     }
 
     /**
-     * @return array|TwigFunction[]
+     * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('_f', [$this, 'translateFormatted']),
@@ -47,113 +47,108 @@ class TwigTranslationExtension extends AbstractExtension
             new TwigFunction('_pfe', [$this, 'translatePluralFormattedExtended']),
             new TwigFunction('_c', [$this, 'translateWithContext']),
             new TwigFunction('locale', [$this, 'locale']),
-            new TwigFunction('get_user_locale', [$this, 'get_user_locale']),
-            new TwigFunction('native_language_name', [$this, 'native_language_name']),
-            new TwigFunction('supported_locales', [$this, 'supported_locales']),
+            new TwigFunction('getUserLocale', [$this, 'getUserLocale']),
+            new TwigFunction('nativeLanguageName', [$this, 'nativeLanguageName']),
+            new TwigFunction('supportedLocales', [$this, 'supportedLocales']),
         ];
     }
 
     /**
-     * @param string $text
+     * @param string $text The text
      *
      * @return string
      */
-    public function translateFormatted(string $text)
+    public function translateFormatted(string $text): string
     {
         return $this->i18n->translateFormatted($text);
     }
 
     /**
-     * @param string $text
-     * @param mixed  ...$replacements
+     * @param string $text            The text
+     * @param mixed  ...$replacements The replacements
      *
      * @return string
      */
-    public function translateFormattedExtended(string $text, ...$replacements)
+    public function translateFormattedExtended(string $text, ...$replacements): string
     {
         return $this->i18n->translateFormattedExtended($text, ...$replacements);
     }
 
     /**
-     * @param string $text
-     * @param string $alternative
-     * @param int    $count
+     * @param string $text            The text
+     * @param string $alternative     The alternative
+     * @param int    $count           The count
+     * @param mixed  ...$replacements The replacements
      *
      * @return string
      */
-    public function translatePlural(string $text, string $alternative, int $count)
-    {
-        return $this->i18n->translatePlural($text, $alternative, $count);
-    }
-
-    /**
-     * @param string $text
-     * @param string $alternative
-     * @param int    $count
-     * @param mixed  ...$replacements
-     *
-     * @return string
-     */
-    public function translatePluralFormatted(string $text, string $alternative, int $count, ...$replacements)
+    public function translatePluralFormatted(string $text, string $alternative, int $count, ...$replacements): string
     {
         return $this->i18n->translatePluralFormatted($text, $alternative, $count, ...$replacements);
     }
 
     /**
-     * @param string $text
-     * @param string $alternative
-     * @param int    $count
-     * @param mixed  ...$replacements
+     * @param string $text            The text
+     * @param string $alternative     The alternative
+     * @param int    $count           The count
+     * @param mixed  ...$replacements The replacements
      *
      * @return string
      */
-    public function translatePluralFormattedExtended(string $text, string $alternative, int $count, ...$replacements)
-    {
+    public function translatePluralFormattedExtended(
+        string $text,
+        string $alternative,
+        int $count,
+        ...$replacements
+    ): string {
         return $this->i18n->translatePluralFormattedExtended($text, $alternative, $count, ...$replacements);
     }
 
     /**
-     * @param string $text
-     * @param string $context
+     * @param string $text    The text
+     * @param string $context The context
      *
      * @return string
      */
-    public function translateWithContext(string $text, string $context)
+    public function translateWithContext(string $text, string $context): string
     {
         return $this->i18n->translateWithContext($text, $context);
     }
 
     /**
-     * @return array|string[]
+     * @return array
      */
-    public function supported_locales()
+    public function supportedLocales(): array
     {
         return $this->locales;
     }
 
     /**
-     * @return null|mixed|string
+     * @return string
      */
-    public function get_user_locale()
+    public function getUserLocale(): string
     {
         return $this->phpSession->get('lang') ?? $this->locales[0];
     }
 
-    public function set_user_locale()
+    /**
+     * setUserLocal.
+     */
+    public function setUserLocale(): void
     {
         try {
-            $this->i18n->setLocaleManually($this->get_user_locale());
+            $this->i18n->setLocaleManually($this->getUserLocale());
         } catch (LocaleNotSupportedException $e) {
-            die($e->getMessage());
+            exit($e->getMessage());
         }
     }
 
     /**
-     * @param string $locale
+     * @param string $locale The locale to use
      *
      * @return null|string
      */
-    public function native_language_name(string $locale)
+    public function nativeLanguageName(string $locale): ?string
     {
         return $this->i18n->getNativeLanguageName($locale);
     }

@@ -10,6 +10,7 @@ use FilesystemIterator;
 use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -56,8 +57,8 @@ class TwigCompiler
         if (file_exists($this->cachePath)) {
             $this->removeDirectory($this->cachePath);
         }
-        if (!file_exists($this->cachePath)) {
-            mkdir($this->cachePath, 0777, true);
+        if (!mkdir($concurrentDirectory = $this->cachePath, 0777, true) && !is_dir($concurrentDirectory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
 
         // Iterate over all your templates and force compilation
@@ -83,13 +84,13 @@ class TwigCompiler
     }
 
     /**
-     * @param string $viewPath
+     * @param string $viewPath The view path
      *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    private function compileFiles(string $viewPath)
+    private function compileFiles(string $viewPath): void
     {
         $directory = new RecursiveDirectoryIterator($viewPath, FilesystemIterator::SKIP_DOTS);
 
@@ -110,7 +111,7 @@ class TwigCompiler
     }
 
     /**
-     * @param string $path
+     * @param string $path The path to remove
      *
      * @return bool
      */
@@ -133,7 +134,7 @@ class TwigCompiler
                 try {
                     unlink($fileName);
                 } catch (Exception $e) {
-                    die($e->getMessage());
+                    exit($e->getMessage());
                 }
             }
         }
