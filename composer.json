@@ -13,16 +13,16 @@
     "homepage": "https://github.com/darkalchemy/twig-translate",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "ext-gettext": "*",
         "ext-intl": "*",
         "delight-im/i18n": "^1.0",
-        "odan/session": "dev-master",
+        "odan/session": "^5.1",
         "twig/twig": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
-        "odan/phinx-migrations-generator": "^5.1",
+        "odan/phinx-migrations-generator": "^5.3",
         "overtrue/phplint": "^2.0",
         "phpmd/phpmd": "^2.8",
         "phpstan/phpstan": "^0.12.32",

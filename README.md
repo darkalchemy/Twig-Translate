@@ -8,7 +8,7 @@ So, this extension uses [delight-im/PHP-I18N](https://github.com/delight-im/PHP-
 
 ## Requirements
 
-* PHP 7.4
+* PHP 7.4 or PHP 8.0
 
 ## Installation - These instructions assume using php-di for the dependency injection.
 
