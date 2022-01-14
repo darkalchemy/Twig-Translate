@@ -21,13 +21,9 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^3.5",
         "odan/phinx-migrations-generator": "^5.3",
-        "overtrue/phplint": "^2.0",
-        "phpmd/phpmd": "^2.8",
-        "phpstan/phpstan": "^0.12.32",
-        "roave/security-advisories": "dev-master",
-        "squizlabs/php_codesniffer": "3.*",
+        "overtrue/phplint": "^3.0",
         "symfony/var-dumper": "^5.1"
     },
     "config": {
@@ -36,10 +32,7 @@
     "scripts": {
         "cleanup": [
             "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --show-progress=dots -vvv",
-            "phplint ./ --exclude=vendor --exclude=public/resources --no-cache --jobs=10 --ansi",
-            "phpcs -s",
-            "phpmd . ansi phpmd.xml --exclude */vendor/*",
-            "phpstan analyse -c phpstan.neon"
+            "phplint ./ --exclude=vendor --exclude=public/resources --no-cache --jobs=10 --ansi"
         ],
         "fix": "phpcbf"
     },

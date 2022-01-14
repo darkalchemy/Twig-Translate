@@ -139,7 +139,7 @@ class TwigTranslationExtension extends AbstractExtension
         try {
             $this->i18n->setLocaleManually($this->getUserLocale());
         } catch (LocaleNotSupportedException $e) {
-            exit($e->getMessage());
+            die($e->getMessage());
         }
     }
 

@@ -53,7 +53,7 @@ class TwigCompiler
      */
     public function compile(): bool
     {
-        // Delete old twig cache files
+        // Delete old twig cache files and folder
         if (file_exists($this->cachePath)) {
             $this->removeDirectory($this->cachePath);
         }
@@ -113,9 +113,9 @@ class TwigCompiler
     /**
      * @param string $path The path to remove
      *
-     * @return bool
+     * @return void
      */
-    private function removeDirectory(string $path): bool
+    private function removeDirectory(string $path): void
     {
         $iterator = new DirectoryIterator($path);
         foreach ($iterator as $fileInfo) {
@@ -134,15 +134,11 @@ class TwigCompiler
                 try {
                     unlink($fileName);
                 } catch (Exception $e) {
-                    exit($e->getMessage());
+                    die($e->getMessage());
                 }
             }
         }
 
-        if ($path !== $this->cachePath) {
-            return rmdir($path);
-        }
-
-        return true;
+        rmdir($path);
     }
 }
