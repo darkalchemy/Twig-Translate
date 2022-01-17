@@ -29,14 +29,12 @@ In your container
     ]);
 }),
 
-SessionInterface::class => fn () => new PhpSession(),
-
 \Slim\Views\Twig::class => function (\Psr\Container\ContainerInterface $container) {
         $settings = $container->get(Configuration::class)->all();
         $twig = \Slim\Views\Twig::create($settings['twig']['path'], [
             'cache' => $settings['twig']['cache'] ?? false,
         ]);
-        $twig->addExtension(new \darkalchemy\Twig\TwigTranslationExtension($container->get(\Delight\I18n\I18n::class), $container->get(SessionInterface::class)));
+        $twig->addExtension(new \darkalchemy\Twig\TwigTranslationExtension($container->get(\Delight\I18n\I18n::class)));
 
         return $twig;
 }

@@ -6,7 +6,6 @@ namespace Darkalchemy\Twig;
 
 use Delight\I18n\I18n;
 use Delight\I18n\Throwable\LocaleNotSupportedException;
-use Odan\Session\SessionInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -16,19 +15,16 @@ use Twig\TwigFunction;
 class TwigTranslationExtension extends AbstractExtension
 {
     protected I18n $i18n;
-    protected SessionInterface $phpSession;
     protected array $locales;
 
     /**
      * TwigTranslationExtension constructor.
      *
      * @param I18n             $i18n       The i18n
-     * @param SessionInterface $phpSession The php session
      */
-    public function __construct(I18n $i18n, SessionInterface $phpSession)
+    public function __construct(I18n $i18n)
     {
         $this->i18n       = $i18n;
-        $this->phpSession = $phpSession;
         $this->locales    = $this->i18n->getSupportedLocales();
 
         $this->setUserLocale();
@@ -128,7 +124,7 @@ class TwigTranslationExtension extends AbstractExtension
      */
     public function getUserLocale(): string
     {
-        return $this->phpSession->get('lang') ?? $this->locales[0];
+        return $this->i18n->getLocale();
     }
 
     /**
