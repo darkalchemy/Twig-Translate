@@ -124,7 +124,7 @@ class TwigTranslationExtension extends AbstractExtension
      */
     public function getUserLocale(): string
     {
-        return $this->i18n->getLocale();
+        return $this->i18n->getLocale() ?? $this->locales[0];
     }
 
     /**
