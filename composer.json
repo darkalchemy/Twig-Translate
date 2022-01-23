@@ -23,6 +23,7 @@
         "friendsofphp/php-cs-fixer": "^3.5",
         "odan/phinx-migrations-generator": "^5.3",
         "overtrue/phplint": "^3.0",
+        "phpstan/phpstan": "^1.4",
         "symfony/var-dumper": "^5.1"
     },
     "config": {
@@ -33,7 +34,7 @@
             "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --show-progress=dots -vvv",
             "phplint ./ --exclude=vendor --exclude=public/resources --no-cache --jobs=10 --ansi"
         ],
-        "fix": "phpcbf"
+        "phpstan": "phpstan analyse"
     },
     "autoload": {
         "psr-4": {
