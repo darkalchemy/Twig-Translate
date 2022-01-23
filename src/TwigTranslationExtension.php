@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Darkalchemy\Twig;
 
 use Delight\I18n\I18n;
-use Delight\I18n\Throwable\LocaleNotSupportedException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -15,19 +14,15 @@ use Twig\TwigFunction;
 class TwigTranslationExtension extends AbstractExtension
 {
     protected I18n $i18n;
-    protected array $locales;
 
     /**
      * TwigTranslationExtension constructor.
      *
-     * @param I18n             $i18n       The i18n
+     * @param I18n $i18n The i18n
      */
     public function __construct(I18n $i18n)
     {
-        $this->i18n       = $i18n;
-        $this->locales    = $this->i18n->getSupportedLocales();
-
-        $this->setUserLocale();
+        $this->i18n = $i18n;
     }
 
     /**
@@ -36,13 +31,12 @@ class TwigTranslationExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('_f', [$this, 'translateFormatted']),
-            new TwigFunction('_fe', [$this, 'translateFormattedExtended']),
-            new TwigFunction('_p', [$this, 'translatePlural']),
-            new TwigFunction('_pf', [$this, 'translatePluralFormatted']),
-            new TwigFunction('_pfe', [$this, 'translatePluralFormattedExtended']),
-            new TwigFunction('_c', [$this, 'translateWithContext']),
-            new TwigFunction('locale', [$this, 'locale']),
+            new TwigFunction('_f', [$this, '_f']),
+            new TwigFunction('_fe', [$this, '_fe']),
+            new TwigFunction('_p', [$this, '_p']),
+            new TwigFunction('_pf', [$this, '_pf']),
+            new TwigFunction('_pfe', [$this, '_pfe']),
+            new TwigFunction('_c', [$this, '_c']),
             new TwigFunction('getUserLocale', [$this, 'getUserLocale']),
             new TwigFunction('nativeLanguageName', [$this, 'nativeLanguageName']),
             new TwigFunction('supportedLocales', [$this, 'supportedLocales']),
@@ -50,13 +44,14 @@ class TwigTranslationExtension extends AbstractExtension
     }
 
     /**
-     * @param string $text The text
+     * @param string $text            The text
+     * @param mixed  ...$replacements
      *
      * @return string
      */
-    public function translateFormatted(string $text): string
+    public function _f(string $text, ...$replacements): string
     {
-        return $this->i18n->translateFormatted($text);
+        return $this->i18n->_f($text, ...$replacements);
     }
 
     /**
@@ -65,9 +60,21 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function translateFormattedExtended(string $text, ...$replacements): string
+    public function _fe(string $text, ...$replacements): string
     {
-        return $this->i18n->translateFormattedExtended($text, ...$replacements);
+        return $this->i18n->_fe($text, ...$replacements);
+    }
+
+    /**
+     * @param string $text        The text
+     * @param string $alternative The alternative
+     * @param int    $count       The count
+     *
+     * @return string
+     */
+    public function _p(string $text, string $alternative, int $count): string
+    {
+        return $this->i18n->_p($text, $alternative, $count);
     }
 
     /**
@@ -78,9 +85,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function translatePluralFormatted(string $text, string $alternative, int $count, ...$replacements): string
+    public function _pf(string $text, string $alternative, int $count, ...$replacements): string
     {
-        return $this->i18n->translatePluralFormatted($text, $alternative, $count, ...$replacements);
+        return $this->i18n->_pf($text, $alternative, $count, ...$replacements);
     }
 
     /**
@@ -91,13 +98,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function translatePluralFormattedExtended(
-        string $text,
-        string $alternative,
-        int $count,
-        ...$replacements
-    ): string {
-        return $this->i18n->translatePluralFormattedExtended($text, $alternative, $count, ...$replacements);
+    public function _pfe(string $text, string $alternative, int $count, ...$replacements): string
+    {
+        return $this->i18n->_pfe($text, $alternative, $count, ...$replacements);
     }
 
     /**
@@ -106,9 +109,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function translateWithContext(string $text, string $context): string
+    public function _c(string $text, string $context): string
     {
-        return $this->i18n->translateWithContext($text, $context);
+        return $this->i18n->_c($text, $context);
     }
 
     /**
@@ -116,7 +119,7 @@ class TwigTranslationExtension extends AbstractExtension
      */
     public function supportedLocales(): array
     {
-        return $this->locales;
+        return $this->i18n->getSupportedLocales();
     }
 
     /**
@@ -124,19 +127,7 @@ class TwigTranslationExtension extends AbstractExtension
      */
     public function getUserLocale(): string
     {
-        return $this->i18n->getLocale() ?? $this->locales[0];
-    }
-
-    /**
-     * setUserLocal.
-     */
-    public function setUserLocale(): void
-    {
-        try {
-            $this->i18n->setLocaleManually($this->getUserLocale());
-        } catch (LocaleNotSupportedException $e) {
-            die($e->getMessage());
-        }
+        return $this->i18n->getLocale() ?? $_SESSION[$this->i18n->getSessionField() ?? 'locale'] ?? $this->supportedLocales()[0];
     }
 
     /**
