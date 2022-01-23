@@ -23,6 +23,7 @@ use Twig\Loader\FilesystemLoader;
 class TwigCompiler
 {
     protected Environment $twig;
+    protected TwigTranslationExtension $ext;
     protected string $cachePath;
     protected bool $verbose;
 
@@ -33,10 +34,11 @@ class TwigCompiler
      * @param string      $cachePath The twig cache path
      * @param bool        $verbose   Enable verbose output
      */
-    public function __construct(Environment $twig, string $cachePath, bool $verbose = false)
+    public function __construct(Environment $twig, TwigTranslationExtension $ext, string $cachePath, bool $verbose = false)
     {
+        $this->ext = $ext;
         if (empty($cachePath)) {
-            throw new InvalidArgumentException(_f('The cache path is required'));
+            throw new InvalidArgumentException($ext->_f('The cache path is required'));
         }
 
         $this->twig      = $twig;
@@ -112,8 +114,6 @@ class TwigCompiler
 
     /**
      * @param string $path The path to remove
-     *
-     * @return void
      */
     private function removeDirectory(string $path): void
     {
@@ -134,7 +134,7 @@ class TwigCompiler
                 try {
                     unlink($fileName);
                 } catch (Exception $e) {
-                    die($e->getMessage());
+                    exit($e->getMessage());
                 }
             }
         }
