@@ -54,8 +54,9 @@ class TwigCompiler
      */
     public function compile(): bool
     {
-        FileHelper::ensureDirectory($this->cachePath, 0777);
-        FileHelper::clearDirectory($this->cachePath);
+        $files = new FileHelper();
+        $files->ensureDirectory($this->cachePath, 0777);
+        $files->clearDirectory($this->cachePath);
 
         // Iterate over all your templates and force compilation
         $this->twig->disableDebug();
