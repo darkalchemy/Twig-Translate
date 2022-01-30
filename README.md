@@ -18,7 +18,7 @@ So, this extension uses [delight-im/PHP-I18N](https://github.com/delight-im/PHP-
 
 ### Register the Twig Extension and, the locale codes that will be available
 
-##### This makes the functions available for all strings that are in twig templates
+#### This makes the functions available for all strings that are in twig templates
 
 In your container
 
