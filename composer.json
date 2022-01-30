@@ -25,6 +25,7 @@
         "odan/phinx-migrations-generator": "^5.3",
         "overtrue/phplint": "^4.1.0",
         "phpstan/phpstan": "^1.4",
+        "squizlabs/php_codesniffer": "^3.6",
         "symfony/var-dumper": "^6.0.3"
     },
     "config": {
@@ -35,7 +36,8 @@
             "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --show-progress=dots -vvv",
             "phplint ./ --exclude=vendor --exclude=public/resources --no-cache --jobs=10 --ansi"
         ],
-        "phpstan": "phpstan analyse"
+        "phpstan": "phpstan analyse",
+        "phpcs": "phpcs -s"
     },
     "autoload": {
         "psr-4": {

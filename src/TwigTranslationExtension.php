@@ -130,8 +130,10 @@ class TwigTranslationExtension extends AbstractExtension
      */
     public function getUserLocale(): string
     {
+        $session = new SimpleSession();
+
         return $this->i18n->getLocale() ??
-            $this->getSessionValue($this->i18n->getSessionField() ?? 'locale') ??
+            $session->getSessionValue($this->i18n->getSessionField() ?? 'locale') ??
             $this->supportedLocales()[0];
     }
 
@@ -143,15 +145,5 @@ class TwigTranslationExtension extends AbstractExtension
     public function nativeLanguageName(string $locale): ?string
     {
         return $this->i18n->getNativeLanguageName($locale);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return null|mixed
-     */
-    public function getSessionValue(string $key)
-    {
-        return $_SESSION[$key] ?? null;
     }
 }
