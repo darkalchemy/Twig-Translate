@@ -6,7 +6,6 @@ namespace Darkalchemy\Twig;
 
 use Exception;
 use FilesystemIterator;
-use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Twig\Environment;
@@ -21,28 +20,26 @@ use Yiisoft\Files\FileHelper;
  */
 class TwigCompiler
 {
+    /**
+     * @var Environment
+     */
     protected Environment $twig;
-    protected TwigTranslationExtension $ext;
+
+    /**
+     * @var string
+     */
     protected string $cachePath;
-    protected bool $verbose;
 
     /**
      * The TwigCompiler constructor.
      *
      * @param Environment $twig      The Twig Environment instance
      * @param string      $cachePath The twig cache path
-     * @param bool        $verbose   Enable verbose output
      */
-    public function __construct(Environment $twig, TwigTranslationExtension $ext, string $cachePath, bool $verbose = false)
+    public function __construct(Environment $twig, string $cachePath)
     {
-        $this->ext = $ext;
-        if (empty($cachePath)) {
-            throw new InvalidArgumentException($ext->_f('The cache path is required'));
-        }
-
         $this->twig      = $twig;
         $this->cachePath = str_replace('\\', '/', $cachePath);
-        $this->verbose   = $verbose;
     }
 
     /**
@@ -98,11 +95,6 @@ class TwigCompiler
 
             $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
             $templateName = str_replace('\\', '/', $templateName);
-
-            if ($this->verbose) {
-                echo sprintf("Parsing: %s\n", $templateName);
-            }
-
             $this->twig->load($templateName);
         }
     }

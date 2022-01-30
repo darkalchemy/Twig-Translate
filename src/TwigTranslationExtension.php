@@ -13,6 +13,9 @@ use Twig\TwigFunction;
  */
 class TwigTranslationExtension extends AbstractExtension
 {
+    /**
+     * @var I18n
+     */
     protected I18n $i18n;
 
     /**
@@ -26,32 +29,14 @@ class TwigTranslationExtension extends AbstractExtension
     }
 
     /**
-     * @return array
-     */
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('_f', [$this, '_f']),
-            new TwigFunction('_fe', [$this, '_fe']),
-            new TwigFunction('_p', [$this, '_p']),
-            new TwigFunction('_pf', [$this, '_pf']),
-            new TwigFunction('_pfe', [$this, '_pfe']),
-            new TwigFunction('_c', [$this, '_c']),
-            new TwigFunction('getUserLocale', [$this, 'getUserLocale']),
-            new TwigFunction('nativeLanguageName', [$this, 'nativeLanguageName']),
-            new TwigFunction('supportedLocales', [$this, 'supportedLocales']),
-        ];
-    }
-
-    /**
      * @param string $text            The text
-     * @param mixed  ...$replacements
+     * @param mixed  ...$replacements The replacements
      *
      * @return string
      */
-    public function _f(string $text, ...$replacements): string
+    public function __f(string $text, ...$replacements): string
     {
-        return $this->i18n->_f($text, ...$replacements);
+        return $this->i18n->translateFormatted($text, ...$replacements);
     }
 
     /**
@@ -60,9 +45,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function _fe(string $text, ...$replacements): string
+    public function __fe(string $text, ...$replacements): string
     {
-        return $this->i18n->_fe($text, ...$replacements);
+        return $this->i18n->translateFormattedExtended($text, ...$replacements);
     }
 
     /**
@@ -72,9 +57,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function _p(string $text, string $alternative, int $count): string
+    public function __p(string $text, string $alternative, int $count): string
     {
-        return $this->i18n->_p($text, $alternative, $count);
+        return $this->i18n->translatePlural($text, $alternative, $count);
     }
 
     /**
@@ -85,9 +70,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function _pf(string $text, string $alternative, int $count, ...$replacements): string
+    public function __pf(string $text, string $alternative, int $count, ...$replacements): string
     {
-        return $this->i18n->_pf($text, $alternative, $count, ...$replacements);
+        return $this->i18n->translatePluralFormatted($text, $alternative, $count, ...$replacements);
     }
 
     /**
@@ -98,9 +83,9 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function _pfe(string $text, string $alternative, int $count, ...$replacements): string
+    public function __pfe(string $text, string $alternative, int $count, ...$replacements): string
     {
-        return $this->i18n->_pfe($text, $alternative, $count, ...$replacements);
+        return $this->i18n->translatePluralFormattedExtended($text, $alternative, $count, ...$replacements);
     }
 
     /**
@@ -109,9 +94,27 @@ class TwigTranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function _c(string $text, string $context): string
+    public function __c(string $text, string $context): string
     {
-        return $this->i18n->_c($text, $context);
+        return $this->i18n->translateWithContext($text, $context);
+    }
+
+    /**
+     * @return array
+     */
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('__f', [$this, '__f']),
+            new TwigFunction('__fe', [$this, '__fe']),
+            new TwigFunction('__p', [$this, '__p']),
+            new TwigFunction('__pf', [$this, '__pf']),
+            new TwigFunction('__pfe', [$this, '__pfe']),
+            new TwigFunction('__c', [$this, '__c']),
+            new TwigFunction('getUserLocale', [$this, 'getUserLocale']),
+            new TwigFunction('nativeLanguageName', [$this, 'nativeLanguageName']),
+            new TwigFunction('supportedLocales', [$this, 'supportedLocales']),
+        ];
     }
 
     /**
@@ -127,7 +130,9 @@ class TwigTranslationExtension extends AbstractExtension
      */
     public function getUserLocale(): string
     {
-        return $this->i18n->getLocale() ?? $_SESSION[$this->i18n->getSessionField() ?? 'locale'] ?? $this->supportedLocales()[0];
+        return $this->i18n->getLocale() ??
+            $this->getSessionValue($this->i18n->getSessionField() ?? 'locale') ??
+            $this->supportedLocales()[0];
     }
 
     /**
@@ -138,5 +143,15 @@ class TwigTranslationExtension extends AbstractExtension
     public function nativeLanguageName(string $locale): ?string
     {
         return $this->i18n->getNativeLanguageName($locale);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return null|mixed
+     */
+    public function getSessionValue(string $key)
+    {
+        return $_SESSION[$key] ?? null;
     }
 }
