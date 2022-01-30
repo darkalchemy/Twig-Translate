@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Darkalchemy\Twig;
 
-use DirectoryIterator;
 use Exception;
 use FilesystemIterator;
 use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use RuntimeException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
+use Yiisoft\Files\FileHelper;
 
 /**
  * Class TwigCompiler.
@@ -55,13 +54,8 @@ class TwigCompiler
      */
     public function compile(): bool
     {
-        // Delete old twig cache files and folder
-        if (file_exists($this->cachePath)) {
-            $this->removeDirectory($this->cachePath);
-        }
-        if (!mkdir($concurrentDirectory = $this->cachePath, 0777, true) && !is_dir($concurrentDirectory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
-        }
+        FileHelper::ensureDirectory($this->cachePath, 0777);
+        FileHelper::clearDirectory($this->cachePath);
 
         // Iterate over all your templates and force compilation
         $this->twig->disableDebug();
@@ -110,35 +104,5 @@ class TwigCompiler
 
             $this->twig->load($templateName);
         }
-    }
-
-    /**
-     * @param string $path The path to remove
-     */
-    private function removeDirectory(string $path): void
-    {
-        $iterator = new DirectoryIterator($path);
-        foreach ($iterator as $fileInfo) {
-            if ($fileInfo->isDot() || !$fileInfo->isDir()) {
-                continue;
-            }
-            $dirName = $fileInfo->getPathname();
-            $this->removeDirectory($dirName);
-        }
-
-        $files = new FilesystemIterator($path);
-        foreach ($files as $file) {
-            if ($file->getExtension() === 'php') {
-                $fileName = $file->getPathname();
-
-                try {
-                    unlink($fileName);
-                } catch (Exception $e) {
-                    exit($e->getMessage());
-                }
-            }
-        }
-
-        rmdir($path);
     }
 }
