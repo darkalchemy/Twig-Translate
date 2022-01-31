@@ -16,6 +16,7 @@ class SimpleSession
      */
     public function getSessionValue(string $key)
     {
-        return $_SESSION[$key] ?? null;
+        $session = $_SESSION;
+        return $session[$key] ?? null;
     }
 }

@@ -1,6 +1,6 @@
 # Twig Translation Extension
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7e09082beab44f75afe2eefdbc55ec50)](https://www.codacy.com/gh/darkalchemy/Twig-Translate/dashboard?utm_source=github.com\&utm_medium=referral\&utm_content=darkalchemy/Twig-Translate\&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f569d437c5354b21b1a094a81552277a)](https://www.codacy.com/gh/darkalchemy/Twig-Translate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=darkalchemy/Twig-Translate&amp;utm_campaign=Badge_Grade)
 
 A Twig Translation Extension.\
 This twig extension has been forked from [Odan/Twig-Translation](https://github.com/odan/twig-translation) because I wanted more flexibility with available methods for translating.\
