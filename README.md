@@ -155,6 +155,7 @@ In your container
         case 'translate':
             copy($root_path . '/bin/i18n.sh', $root_path . '/i18n.sh');
             chmod($root_path . '/i18n.sh', 0755);
+            passthru("sed -i -E 's/\\-\\-(keyword|flag)=\"_(f|p|c|m)/\\-\\-\\1=\"__\\2/g' {$file}");
             passthru("sed -i 's/\\-\\-keyword \\-\\-keyword/\\-\\-keyword \\-\\-keyword=\"translateFormatted:1\" \\-\\-keyword=\"translateFormattedExtended:1\" \\-\\-keyword=\"translatePlural:1,2,3t\" \\-\\-keyword=\"translatePluralFormatted:1,2\" \\-\\-keyword=\"translatePluralFormattedExtended:1,2\" \\-\\-keyword=\"translateWithContext:1,2c,2t\" \\-\\-keyword=\"markForTranslation:1,1t\" \\-\\-flag=\"translateFormatted:1:php\\-format\" \\-\\-flag=\"translateFormattedExtended:1:no\\-php\\-format\" \\-\\-flag=\"translatePluralFormatted:1:php\\-format\" \\-\\-flag=\"translatePluralFormattedExtended:1:no\\-php\\-format\" \\-\\-keyword/g' i18n.sh");
             passthru(sprintf('./i18n.sh %s', $lang));
             unlink($root_path . '/i18n.sh');
