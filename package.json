@@ -1,11 +1,11 @@
 {
   "name": "twig-translate",
-  "version": "0.3.6",
+  "version": "0.3.4",
   "private": true,
   "scripts": {
     "check": "remark . --frail",
     "format": "remark . --quiet --frail --output",
-    "version": "auto-changelog -p --commit-limit false && git add CHANGELOG.md"
+    "version": "auto-changelog -p --commit-limit false && remark . --quiet --frail && git add CHANGELOG.md"
   },
   "devDependencies": {
     "remark-cli": "^10.0.1",
